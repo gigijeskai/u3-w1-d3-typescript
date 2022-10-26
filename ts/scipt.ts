@@ -44,6 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let btn = document.querySelector(".container button");
   btn?.addEventListener("click", calcLavoratore);
 });
+//^questa funzione mi permette di attaccare lo script all'head dell'html, dopo che il caricamento della pagina sarà completato le funzioni che utilizzano il dom
+//traversing aspetteranno il completo caricamento della pagina
 
 abstract class LavoratoriAutonomi {
   protected codeRedd: number;
@@ -61,6 +63,7 @@ abstract class LavoratoriAutonomi {
   public abstract getTasseInps(): number;
   public abstract getTasseIrpef(): number;
 }
+//^classe astratta con metodi astratti, per essere astratti i metodi devono trovarsi in una classe astratta, questa è anche una super classe perchè è estesa
 
 abstract class Artigiano extends LavoratoriAutonomi {
   public abstract getRedditoAnnuoNetto(): number;
@@ -68,9 +71,11 @@ abstract class Artigiano extends LavoratoriAutonomi {
 abstract class Programmatore extends LavoratoriAutonomi {
   public abstract getRedditoAnnuoNetto(): number;
 }
+//^ possono anche assegnare un nuovo metodo ad una classe astratta estesa, i metodi astratti dovranno essere per forza ereditati dalla classe figlio
 class FrontEndDev extends Programmatore {
   constructor(codeRedd: number, redditoAnnuoLordo: number, tasseInps: number, tasseIrpef: number) {
     super(codeRedd, redditoAnnuoLordo, tasseInps, tasseIrpef);
+    //^ super si utilizza quando si vuole fare riferimento alla classe padre, in questo modo ho preso i valori della classe lovoratori autonomi
   }
   public getRedditoAnnuoLordo(): number {
     return this.redditoAnnuoLordo;
@@ -87,6 +92,7 @@ class FrontEndDev extends Programmatore {
   public getRedditoAnnuoNetto(): number {
     return this.redditoAnnuoLordo - this.getTasseInps() - this.getTasseIrpef();
   }
+  //^metodi della classe ereditati e utilizzati perchè astratti, ritornano un valore
 }
 function calcLavoratore() {
   let codRedd = document.querySelector("#codRedd") as HTMLInputElement;
@@ -94,12 +100,15 @@ function calcLavoratore() {
   let tasseInps = document.querySelector("#tasseInps") as HTMLInputElement;
   let tasseIrpef = document.querySelector("#tasseIrpef") as HTMLInputElement;
   let mario = new FrontEndDev(parseInt(codRedd.value), parseInt(reddAnnLordo.value), parseInt(tasseInps.value), parseInt(tasseIrpef.value));
-  console.log("reddito annuo lordo: " + mario.getRedditoAnnuoLordo());
-  console.log("tasse inps: " + mario.getTasseInps());
-  console.log("tasse irpef: " + mario.getTasseIrpef());
-  console.log("reddito annuo netto: " + mario.getRedditoAnnuoNetto());
-  console.log("utile tasse: " + mario.getUtileTasse());
+  //^gli input di tipo number quando vengono presi dai nodi html in ts vengono restituiti come stringhe e quindi andranno convertiti in numeri con parseint
+  //   console.log("reddito annuo lordo: " + mario.getRedditoAnnuoLordo());
+  //   console.log("tasse inps: " + mario.getTasseInps());
+  //   console.log("tasse irpef: " + mario.getTasseIrpef());
+  //   console.log("reddito annuo netto: " + mario.getRedditoAnnuoNetto());
+  //   console.log("utile tasse: " + mario.getUtileTasse());
   stampaAVideo(mario);
+  //^ questa funzione si trova nella funzione ad inizio pagina, aspetterà il caricamento della pagina prima di eseguire il codice, questa funzione prende degli
+  //input dall'html e li processa con i metodi della classe dando un output
 }
 function stampaAVideo(obj: FrontEndDev) {
   //   console.log("reddito annuo lordo: " + obj.getRedditoAnnuoLordo());
@@ -115,4 +124,6 @@ function stampaAVideo(obj: FrontEndDev) {
   <strong>- reddito annuo netto: </strong>${obj.getRedditoAnnuoNetto()}<br />
   <strong>- utile tasse: </strong>${obj.getUtileTasse()}<br />`;
   div?.appendChild(p);
+  //^l'output sarà stampato nell'html con questa funzione che viene richiamata in quella precedente, e di conseguenza non serve inserirla nell'evento del caricamento
+  //della pagina, preende come parametro gli oggetti di una classe instanziata crea degli elemnti html con il contenuto scritto qui in ts
 }

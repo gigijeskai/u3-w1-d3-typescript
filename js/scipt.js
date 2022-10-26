@@ -40,6 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let btn = document.querySelector(".container button");
     btn === null || btn === void 0 ? void 0 : btn.addEventListener("click", calcLavoratore);
 });
+//^questa funzione mi permette di attaccare lo script all'head dell'html, dopo che il caricamento della pagina sarà completato le funzioni che utilizzano il dom
+//traversing aspetteranno il completo caricamento della pagina
 class LavoratoriAutonomi {
     constructor(codeRedd, redditoAnnuoLordo, tasseInps, tasseIrpef) {
         this.codeRedd = codeRedd;
@@ -48,13 +50,16 @@ class LavoratoriAutonomi {
         this.tasseIrpef = tasseIrpef;
     }
 }
+//^classe astratta con metodi astratti, per essere astratti i metodi devono trovarsi in una classe astratta, questa è anche una super classe perchè è estesa
 class Artigiano extends LavoratoriAutonomi {
 }
 class Programmatore extends LavoratoriAutonomi {
 }
+//^ possono anche assegnare un nuovo metodo ad una classe astratta estesa, i metodi astratti dovranno essere per forza ereditati dalla classe figlio
 class FrontEndDev extends Programmatore {
     constructor(codeRedd, redditoAnnuoLordo, tasseInps, tasseIrpef) {
         super(codeRedd, redditoAnnuoLordo, tasseInps, tasseIrpef);
+        //^ super si utilizza quando si vuole fare riferimento alla classe padre, in questo modo ho preso i valori della classe lovoratori autonomi
     }
     getRedditoAnnuoLordo() {
         return this.redditoAnnuoLordo;
@@ -78,12 +83,15 @@ function calcLavoratore() {
     let tasseInps = document.querySelector("#tasseInps");
     let tasseIrpef = document.querySelector("#tasseIrpef");
     let mario = new FrontEndDev(parseInt(codRedd.value), parseInt(reddAnnLordo.value), parseInt(tasseInps.value), parseInt(tasseIrpef.value));
-    console.log("reddito annuo lordo: " + mario.getRedditoAnnuoLordo());
-    console.log("tasse inps: " + mario.getTasseInps());
-    console.log("tasse irpef: " + mario.getTasseIrpef());
-    console.log("reddito annuo netto: " + mario.getRedditoAnnuoNetto());
-    console.log("utile tasse: " + mario.getUtileTasse());
+    //^gli input di tipo number quando vengono presi dai nodi html in ts vengono restituiti come stringhe e quindi andranno convertiti in numeri con parseint
+    //   console.log("reddito annuo lordo: " + mario.getRedditoAnnuoLordo());
+    //   console.log("tasse inps: " + mario.getTasseInps());
+    //   console.log("tasse irpef: " + mario.getTasseIrpef());
+    //   console.log("reddito annuo netto: " + mario.getRedditoAnnuoNetto());
+    //   console.log("utile tasse: " + mario.getUtileTasse());
     stampaAVideo(mario);
+    //^ questa funzione si trova nella funzione ad inizio pagina, aspetterà il caricamento della pagina prima di eseguire il codice, questa funzione prende degli
+    //input dall'html e li processa con i metodi della classe dando un output
 }
 function stampaAVideo(obj) {
     //   console.log("reddito annuo lordo: " + obj.getRedditoAnnuoLordo());
@@ -99,4 +107,6 @@ function stampaAVideo(obj) {
   <strong>- reddito annuo netto: </strong>${obj.getRedditoAnnuoNetto()}<br />
   <strong>- utile tasse: </strong>${obj.getUtileTasse()}<br />`;
     div === null || div === void 0 ? void 0 : div.appendChild(p);
+    //^l'output sarà stampato nell'html con questa funzione che viene richiamata in quella precedente, e di conseguenza non serve inserirla nell'evento del caricamento
+    //della pagina, preende come parametro gli oggetti di una classe instanziata crea degli elemnti html con il contenuto scritto qui in ts
 }
