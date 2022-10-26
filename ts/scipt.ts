@@ -13,6 +13,11 @@ abstract class Lavoratore {
     this.tasseIrpef = tasseIrpef;
   }
   getUtileTasse() {
+    // if (this.codeRedd < 5 && this.redditoAnnuoLordo < 20000) {
+    //   return (this.redditoAnnuoLordo * (this.tasseInps + this.tasseIrpef * 2)) / 100;
+    // } else {
+    //   return (this.redditoAnnuoLordo * (this.tasseInps + this.tasseIrpef)) / 100;
+    // }
     return (this.redditoAnnuoLordo * (this.tasseInps + this.tasseIrpef)) / 100;
   }
   getTasseInps() {
@@ -28,9 +33,9 @@ abstract class Lavoratore {
 }
 
 class LavoratoreAutonomo extends Lavoratore {}
-let lavoratore1 = new LavoratoreAutonomo(1, 100, 15, 10);
+let lavoratore1 = new LavoratoreAutonomo(1, 25000, 15, 10);
 
-// console.log(lavoratore1.getUtileTasse());
-// console.log(lavoratore1.getTasseInps());
-// console.log(lavoratore1.getTasseIrpef());
+console.log(lavoratore1.getUtileTasse());
+console.log(lavoratore1.getTasseInps());
+console.log(lavoratore1.getTasseIrpef());
 console.log(lavoratore1.getRedditoAnnuoNetto());
